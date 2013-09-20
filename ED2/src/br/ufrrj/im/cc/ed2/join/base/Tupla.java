@@ -6,7 +6,7 @@ import java.util.List;
 
 
 
-public class Tupla implements Iterator{
+public class Tupla implements Iterator, Comparable<Tupla>{
 	
 
 	private List<ColunaTupla> listaColunas;
@@ -68,8 +68,13 @@ public class Tupla implements Iterator{
 	}
 
 	@Override
-	public int custo() {
+	public double custo() {
 		return 1;
+	}
+
+	@Override
+	public int compareTo(Tupla t) {
+		return this.getValorCampo("id").compareTo(t.getValorCampo("id"));
 	}
 	
 }

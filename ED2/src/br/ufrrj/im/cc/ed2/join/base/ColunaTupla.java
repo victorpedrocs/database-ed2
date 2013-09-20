@@ -38,7 +38,7 @@ public class ColunaTupla  implements Iterator{
 	}
 
 	@Override
-	public int custo() {
+	public double custo() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

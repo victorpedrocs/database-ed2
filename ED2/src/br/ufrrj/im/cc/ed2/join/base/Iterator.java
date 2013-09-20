@@ -5,6 +5,6 @@ public interface Iterator {
 	Iterator open();
 	Iterator next();
 	Iterator close();
-	public int custo();
+	public double custo();
 	
 }

@@ -25,17 +25,23 @@ public class Catalogo {
 		criaColunasLivro("id_autor", 4);
 		 
 		ItemCatalogo itemLivro = new ItemCatalogo("Livro", "livros.txt", colunasRelacaoLivro, 500001);
+		ItemCatalogo selecaoLivro = new ItemCatalogo("Livro_temp", "tmp_livros.txt", colunasRelacaoLivro, 500001);
 		itens.add(itemLivro);
+		itens.add(selecaoLivro);
 		
 		criaColunasCategoria("id", 0);
 		criaColunasCategoria("descricao", 1);
 		ItemCatalogo itemCategoria = new ItemCatalogo("Categoria", "categorias.txt", colunasRelacaoCategoria, 20);
+		ItemCatalogo selecaoCategoria = new ItemCatalogo("Categoria_temp", "tmp_categorias.txt", colunasRelacaoCategoria, 20);
 		itens.add(itemCategoria);
+		itens.add(selecaoCategoria);
 		
 		criaColunasAutor("id", 0);
 		criaColunasAutor("nome", 1);
 		ItemCatalogo itemAutor = new ItemCatalogo("Autor", "autores.txt", colunasRelacaoAutor, 100);
+		ItemCatalogo selecaoAutor = new ItemCatalogo("Autor_temp", "tmp_autor.txt", colunasRelacaoAutor, 100);
 		itens.add(itemAutor);
+		itens.add(selecaoAutor);
 		
 	}
 

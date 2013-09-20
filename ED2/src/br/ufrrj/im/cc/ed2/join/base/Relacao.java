@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.ufrrj.im.cc.ed2.catalogo.Catalogo;
 import br.ufrrj.im.cc.ed2.catalogo.Coluna;
+import br.ufrrj.im.cc.ed2.join.base.Tupla;
 
 public class Relacao implements Iterator {
 	
@@ -20,8 +21,8 @@ public class Relacao implements Iterator {
 	}
 
 	/**
-	 * A função deste método é abrir o arquivo e esperar que este seja
-	 * lido através do método next()
+	 * A funcao deste metodo e abrir o arquivo e esperar que este seja
+	 * lido atraves do metodo next()
 	 */
 	@Override
 	public Iterator open() {
@@ -44,13 +45,13 @@ public class Relacao implements Iterator {
 			linha = arquivo.readLine();
 			if(linha == null) return null;
 		} catch (IOException e) {
-			geraExcecao("Erro na leitura de uma linha da relação "+nomeRelacao, e);
+			geraExcecao("Erro na leitura de uma linha da relacao "+nomeRelacao, e);
 		}
 		//constroi a tupla
 		String[] valores = linha.split("\t");
 		List<Coluna> colunas = Catalogo.getInstancia().recuperaColunas(nomeRelacao);
 		if(valores.length != colunas.size()){
-			throw new RuntimeException("O número de colunas na descrição da relação "+nomeRelacao+" é incompatível com"
+			throw new RuntimeException("O numero de colunas na descricao da relacao "+nomeRelacao+" e incompatavel com"
 					+ " o lido do arquivo. Linha lida: "+linha);
 		}
 		Tupla tuplaRetorno = new Tupla();
@@ -70,7 +71,7 @@ public class Relacao implements Iterator {
 		try {
 			arquivo.close();
 		} catch (IOException e) {
-			geraExcecao("Erro ao fechar a relação "+nomeRelacao+".", e);
+			geraExcecao("Erro ao fechar a relacao "+nomeRelacao+".", e);
 		}
 		return null;
 	}
@@ -83,9 +84,13 @@ public class Relacao implements Iterator {
 	public int getNumeroLinhas() {
 		return Catalogo.getInstancia().recuperaNumeroLinhas(nomeRelacao);
 	}
+	
+	public String getNome(){
+		return this.nomeRelacao;
+	}
 
 	@Override
-	public int custo() {
+	public double custo() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

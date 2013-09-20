@@ -14,9 +14,9 @@ public class HashJoin implements Iterator {
 	private String campoRelacao1;
 	private Hashtable<String, Tupla> tabela;
 	
-	public HashJoin(String relacao1, String campoRelacao1, String relacao2, String campoRelacao2) {
-		this.relacaoConstrucao = new Relacao(relacao1);
-		this.relacaoPoda = new Relacao(relacao2);
+	public HashJoin(Relacao relacao1, String campoRelacao1, Relacao relacao2, String campoRelacao2) {
+		this.relacaoConstrucao = relacao1;
+		this.relacaoPoda = relacao2;
 		this.campoRelacao1 = campoRelacao1;
 		this.campoRelacao2 = campoRelacao2;
 	}
@@ -60,7 +60,7 @@ public class HashJoin implements Iterator {
 	}
 
 	@Override
-	public int custo() {
+	public double custo() {
 		return this.relacaoConstrucao.getNumeroLinhas() +  this.relacaoPoda.getNumeroLinhas();
 	}
 

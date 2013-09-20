@@ -1,5 +1,6 @@
 package br.ufrrj.im.cc.ed2.join.nL;
-import br.ufrrj.im.cc.ed2.index.arvoreB.BTreeOLD;
+import java.util.ArrayList;
+
 import br.ufrrj.im.cc.ed2.join.base.Iterator;
 import br.ufrrj.im.cc.ed2.join.base.Relacao;
 import br.ufrrj.im.cc.ed2.join.base.Tupla;
@@ -8,19 +9,27 @@ public class NestedLoop implements Iterator {
 	private Relacao relacaoConstrucao;
 	private Relacao relacaoPoda;
 	private Relacao relacaoAux;
+	private ArrayList<Tupla> join;
+	private int contador;
 	
 	public NestedLoop(String relacao1, String relacao2) {
 		this.relacaoConstrucao = new Relacao(relacao1);
 		this.relacaoPoda = new Relacao(relacao2);
+		this.join = new ArrayList<>();
+		this.contador = 0;
 	}
 	
 	public NestedLoop(String relacao1, String relacao2, String relacao3) {
 		this.relacaoConstrucao = new Relacao(relacao1);
 		this.relacaoPoda = new Relacao(relacao2);
 		this.relacaoAux = new Relacao(relacao3);
+		this.join = new ArrayList<>();
+		this.contador = 0;
 	}
 
 	public Iterator open(String texto, int tipo) {
+		
+		this.contador = 0;
 		Tupla tupla1,tupla2;
 		
 		relacaoConstrucao.open();
@@ -32,6 +41,9 @@ public class NestedLoop implements Iterator {
 				if(tipo ==1){
 					while ((tupla2 = (Tupla) relacaoPoda.next()) != null) {
 						if(tupla2.getValoresRelacao().get(4).equals(idRelacao1)){
+							Tupla taux = tupla1;
+							taux.concatena(tupla2);
+							this.join.add(taux);
 							System.out.println(tupla2.getValoresRelacao().get(1));
 						}
 					}
@@ -39,6 +51,9 @@ public class NestedLoop implements Iterator {
 				else if(tipo ==2){
 					while ((tupla2 = (Tupla) relacaoPoda.next()) != null) {
 						if(tupla2.getValoresRelacao().get(3).equals(idRelacao1)){
+							Tupla taux = tupla1;
+							taux.concatena(tupla2);
+							this.join.add(taux);
 							System.out.println(tupla2.getValoresRelacao().get(1));
 						}
 					}
@@ -50,6 +65,9 @@ public class NestedLoop implements Iterator {
 				else{
 					while ((tupla2 = (Tupla) relacaoPoda.next()) != null) {
 						if(tupla2.getValoresRelacao().get(3).equals(idRelacao1)){
+							Tupla taux = tupla1;
+							taux.concatena(tupla2);
+							this.join.add(taux);
 							System.out.println(tupla2.getValoresRelacao().get(1));
 						}
 					}
@@ -64,7 +82,7 @@ public class NestedLoop implements Iterator {
 	}
 
 	public Iterator next() {
-		
+		this.join.get(contador);		
 		return null;
 	}
 
@@ -117,8 +135,7 @@ public class NestedLoop implements Iterator {
 	}
 
 	@Override
-	public int custo() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double custo() {
+		return this.relacaoConstrucao.custo() * this.relacaoPoda.custo();
 	}
 }

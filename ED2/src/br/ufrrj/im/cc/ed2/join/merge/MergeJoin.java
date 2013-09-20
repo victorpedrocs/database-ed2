@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import br.ufrrj.im.cc.ed2.join.base.ColunaTupla;
 import br.ufrrj.im.cc.ed2.join.base.Iterator;
 import br.ufrrj.im.cc.ed2.join.base.Relacao;
 import br.ufrrj.im.cc.ed2.join.base.Tupla;
@@ -13,32 +14,57 @@ public class MergeJoin implements Iterator {
 	private Relacao relacaoConstrucao;
 	private Relacao relacaoPoda;
 	private Relacao relacaoAux;
+	private ArrayList<Tupla> mergeJoin;
+	private String nomeColuna1, nomeColuna2, nomeColuna3;
 	
 	public MergeJoin(String relacao1, String relacao2) {
 		this.relacaoConstrucao = new Relacao(relacao1);
 		this.relacaoPoda = new Relacao(relacao2);
+		this.mergeJoin = new ArrayList<>();
+	}
+	
+	public MergeJoin(Relacao relacao1, String coluna1, Relacao relacao2, String coluna2) {
+		this.relacaoConstrucao = relacao1;
+		this.relacaoPoda = relacao2;
+		this.nomeColuna1 = coluna1;
+		this.nomeColuna2 = coluna2;
+		this.mergeJoin = new ArrayList<>();
 	}
 	
 	public MergeJoin(String relacao1, String relacao2, String relacao3) {
 		this.relacaoConstrucao = new Relacao(relacao1);
 		this.relacaoPoda = new Relacao(relacao2);
 		this.relacaoAux = new Relacao(relacao3);
+		this.mergeJoin = new ArrayList<>();
 	}
 
 	public List ordenaRegistros(Relacao relacao, int index){
 		Tupla tupla;
 		List<Object> vetor = new ArrayList<Object>();
+		List<Tupla> listaTuplas = new ArrayList<Tupla>();
 		
 		relacao.open();
 		while ((tupla = (Tupla) relacao.next()) != null) {
+			listaTuplas.add(tupla);
 			Object registro = new Object(Integer.parseInt((String) tupla.getValoresRelacao().get(index)), tupla.getValoresRelacao());
 			vetor.add(registro);
 		}
 		relacao.close();
+		Collections.sort(listaTuplas);
 		Collections.sort(vetor);
 		
 		return vetor;
 	}
+
+	public Iterator open() {
+		ArrayList<Tupla> tupla1 = new ArrayList<>();
+		ArrayList<Tupla> tupla2 = new ArrayList<>();
+		
+		
+				
+		return null;
+	}
+
 
 	public Iterator open(String texto, int tipo) {
 		List<Object> vetor1 = new ArrayList<Object>();
@@ -67,10 +93,12 @@ public class MergeJoin implements Iterator {
 			i++;
 		}
 		
-		//faço o merge com as foreign keys que estão na segunda tabela
+		//faco o merge com as foreign keys que estão na segunda tabela
 		if(tipo==1){
 			for (i = 0; i < vetor2.size(); i++) {
 				if(idRelacao.equals((String) vetor2.get(i).getLista().get(4))){
+					Tupla t = new Tupla();
+					//ColunaTupla ct = new ColunaTupla(nomeColuna, valor)
 					System.out.println((String) vetor2.get(i).getLista().get(1));
 				}
 				else{
@@ -119,10 +147,6 @@ public class MergeJoin implements Iterator {
 		return null;
 	}
 
-	public Iterator open() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	public void open(String descCategoria, String nomeAutor, String nomeEditora) {
@@ -185,8 +209,7 @@ public class MergeJoin implements Iterator {
 	}
 
 	@Override
-	public int custo() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double custo() {
+		return 0.0;
 	}
 }
